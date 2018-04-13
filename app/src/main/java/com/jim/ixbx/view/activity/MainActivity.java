@@ -18,12 +18,18 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.jim.ixbx.R;
 import com.jim.ixbx.presenter.Contract.MainActivityCon;
 import com.jim.ixbx.presenter.activity.MainActivityPre;
 import com.jim.ixbx.utils.FragmentFactory;
 import com.jim.ixbx.view.base.BaseActivity;
 import com.jim.ixbx.view.base.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,15 +49,50 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
     private int[] titleIds = {R.string.conversation, R.string.contact, R.string.plugin};
     private BadgeItem mBadgeItem;
     MainActivityCon.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new MainActivityPre(this,this);
+        new MainActivityPre(this, this);
         ButterKnife.inject(this);
         initToolbar();
         initBottomNavigation();
         initFirstFragment();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUnreadCount();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EMMessage message) {
+        updateUnreadCount();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 获取未读消息
+     */
+    private void updateUnreadCount() {
+        int count = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if (count >= 100) {
+            mBadgeItem.setText("99+");
+            mBadgeItem.show(true);
+        } else if (count > 0) {
+            mBadgeItem.setText(count + "");
+            mBadgeItem.show(true);
+        } else {
+            mBadgeItem.hide(true);
+        }
     }
 
     /**
@@ -106,7 +147,7 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
         transaction.commit();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fl_content,FragmentFactory.getFragment(0), "0")
+                .add(R.id.fl_content, FragmentFactory.getFragment(0), "0")
                 .commit();
     }
 
@@ -119,8 +160,8 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
     public void onTabSelected(int position) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         BaseFragment fragment = FragmentFactory.getFragment(position);
-        if (!fragment.isAdded()){
-            transaction.add(R.id.fl_content,fragment,""+position);
+        if (!fragment.isAdded()) {
+            transaction.add(R.id.fl_content, fragment, "" + position);
         }
         transaction.show(fragment).commit();
         mTvTitle.setText(titleIds[position]);
@@ -147,7 +188,7 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -163,7 +204,7 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_friend:
-                Toast.makeText(this, "添加好友", Toast.LENGTH_SHORT).show();
+                startActivity(AddFriendActivity.class, false);
                 break;
             case R.id.menu_scan:
                 Toast.makeText(this, "分享好友", Toast.LENGTH_SHORT).show();
@@ -183,6 +224,6 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
 
     @Override
     public void setPresenter(MainActivityCon.Presenter presenter) {
-        this.mPresenter=presenter;
+        this.mPresenter = presenter;
     }
 }

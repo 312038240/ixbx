@@ -23,12 +23,14 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.NetUtils;
 import com.jim.ixbx.adapter.IxbxMessageListener;
+import com.jim.ixbx.event.OnContactUpdateEvent;
 import com.jim.ixbx.utils.ThreadUtils;
 import com.jim.ixbx.view.activity.ChatActivity;
 import com.jim.ixbx.view.activity.LoginActivity;
 import com.jim.ixbx.view.activity.MainActivity;
 import com.jim.ixbx.view.base.BaseActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
@@ -122,14 +124,15 @@ public class IxbxApplication extends Application {
             @Override
             public void onContactAdded(String s) {
                 //好友请求被同意
-                //发出通知让ContactFragment更新UI
-               // EventBus.getDefault().post(new OnContactUpdateEvent(s, true));
+                //更新联系人
+                EventBus.getDefault().post(new OnContactUpdateEvent(s, true));
             }
 
             @Override
             public void onContactDeleted(String s) {
                 //被删除时回调此方法
-               // EventBus.getDefault().post(new OnContactUpdateEvent(s, false));
+                //更新联系人
+                EventBus.getDefault().post(new OnContactUpdateEvent(s, false));
                 Log.d(TAG, "onContactDeleted: " + s);
             }
 
@@ -184,7 +187,7 @@ public class IxbxApplication extends Application {
                         //发出短声音
                         mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
                     }
-                    //          EventBus.getDefault().post(messages.get(0));
+                    EventBus.getDefault().post(messages.get(0));
                 }
             }
         });

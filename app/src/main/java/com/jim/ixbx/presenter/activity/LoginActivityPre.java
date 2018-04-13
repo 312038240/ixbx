@@ -48,7 +48,13 @@ public class LoginActivityPre implements LoginActivityCon.Presenter {
                 EMClient.getInstance().chatManager().loadAllConversations();
 //                mActivity.startActivity(new Intent(mActivity, MainActivity.class));
 //                mActivity.finish();
-                mView.onLogin(username,pwd,true,null);
+                ThreadUtils.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.onLogin(username,pwd,true,null);
+                    }
+                });
+
                 Log.e("main", "登录聊天服务器成功！");
             }
 
@@ -58,19 +64,24 @@ public class LoginActivityPre implements LoginActivityCon.Presenter {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onError(final int code, final String message) {
                 Log.e("main", "登录聊天服务器失败！   "+message+"   "+code);
-                switch (code) {
-                    case 200:
-                        mView.onLogin(username,pwd,false,message);
-                        break;
-                    case 204:
-                        registerUser(username,pwd);
-                        break;
-                    default:
-                        mView.onLogin(username,pwd,false,message);
-                        break;
-                }
+                ThreadUtils.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (code) {
+                            case 200:
+                                mView.onLogin(username,pwd,false,message);
+                                break;
+                            case 204:
+                                registerUser(username,pwd);
+                                break;
+                            default:
+                                mView.onLogin(username,pwd,false,message);
+                                break;
+                        }
+                    }
+                });
 
             }
         });
@@ -83,7 +94,7 @@ public class LoginActivityPre implements LoginActivityCon.Presenter {
         userBean.setPassword(pwd);
         userBean.signUp(new SaveListener<UserBean>() {
             @Override
-            public void done(final UserBean userBean, BmobException e) {
+            public void done(final UserBean userBean, final BmobException e) {
                 if (e==null){
                     //成功了再去注册环信平台
                     ThreadUtils.runOnSubThread(new Runnable() {
@@ -114,7 +125,13 @@ public class LoginActivityPre implements LoginActivityCon.Presenter {
                     });
                 }else {
                     //失败了，将结果告诉Activity
-                    mView.onLogin(username,pwd,false,e.getMessage());
+                    ThreadUtils.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mView.onLogin(username,pwd,false,e.getMessage());
+                        }
+                    });
+
                 }
             }
         });
