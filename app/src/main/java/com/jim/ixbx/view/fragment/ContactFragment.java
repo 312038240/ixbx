@@ -90,7 +90,10 @@ public class ContactFragment extends BaseFragment implements ContactFragmentCon.
         if (b) {
             mAdapter.notifyDataSetChanged();
             //隐藏下拉刷新
-            mContactLayout.setRefreshing(false);
+            if (mContactLayout!=null){
+                mContactLayout.setRefreshing(false);
+            }
+
         } else {
             Snackbar.make(mContactLayout, "更新好友列表失败" + message, Snackbar.LENGTH_SHORT).show();
         }

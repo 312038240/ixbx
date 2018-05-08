@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/head_relative_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/head_height"
+    android:background="@color/header_bc_color">
+    <LinearLayout
+        android:id="@+id/bt_title_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:minWidth="70dp">
+
+        <ImageView
+            android:contentDescription="@string/app_name"
+            android:id="@+id/arrow"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bt_head_arrow" />
+        <TextView
+            android:id="@+id/text_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_skip"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_skip" />
+
+    <TextView
+        android:id="@+id/title_line"
+        style="@style/header_line" />
+
+    <LinearLayout
+        android:id="@+id/bt_title_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end"
+        android:minWidth="70dp"
+        android:layout_above="@+id/title_line"
+        android:layout_alignParentEnd="true">
+
+
+        <TextView
+            android:id="@+id/title_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/bt_save"
+            android:textSize="@dimen/text_size_switch" />
+    </LinearLayout>
+</RelativeLayout>

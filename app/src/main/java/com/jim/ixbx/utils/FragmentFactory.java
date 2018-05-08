@@ -1,8 +1,9 @@
 package com.jim.ixbx.utils;
 
 import com.jim.ixbx.view.base.BaseFragment;
-import com.jim.ixbx.view.fragment.ContactFragment;
+import com.jim.ixbx.view.fragment.ConFragment;
 import com.jim.ixbx.view.fragment.ConversationFragment;
+import com.jim.ixbx.view.fragment.MineFragment;
 import com.jim.ixbx.view.fragment.PluginFragment;
 
 /**
@@ -11,8 +12,9 @@ import com.jim.ixbx.view.fragment.PluginFragment;
 
 public class FragmentFactory {
     private static ConversationFragment sConversationFragment;
-    private static ContactFragment sContactFragment;
+    private static ConFragment sConFragment;
     private static PluginFragment sPluginFragment;
+    private static MineFragment sMineFragment;
 
     public static BaseFragment getFragment(int position){
         BaseFragment baseFragment=null;
@@ -24,16 +26,22 @@ public class FragmentFactory {
                 baseFragment=sConversationFragment;
                 break;
             case 1:
-                if (sContactFragment==null){
-                    sContactFragment=new ContactFragment();
+                if (sConFragment==null){
+                    sConFragment=new ConFragment();
                 }
-                baseFragment=sContactFragment;
+                baseFragment=sConFragment;
                 break;
             case 2:
                 if (sPluginFragment==null){
                     sPluginFragment=new PluginFragment();
                 }
                 baseFragment=sPluginFragment;
+                break;
+            case 3:
+                if (sMineFragment==null){
+                    sMineFragment=new MineFragment();
+                }
+                baseFragment=sMineFragment;
                 break;
             default:
                 break;

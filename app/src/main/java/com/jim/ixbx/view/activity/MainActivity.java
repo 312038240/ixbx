@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
     BottomNavigationBar mBottomNavigationBar;
     @InjectView(R.id.activity_main)
     LinearLayout mActivityMain;
-    private int[] titleIds = {R.string.conversation, R.string.contact, R.string.plugin};
+    private int[] titleIds = {R.string.conversation, R.string.contact, R.string.plugin,R.string.mine};
     private BadgeItem mBadgeItem;
     MainActivityCon.Presenter mPresenter;
 
@@ -119,9 +119,10 @@ public class MainActivity extends BaseActivity implements MainActivityCon.View, 
 
         conversationItem.setBadgeItem(mBadgeItem);
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.contact_selected_2, R.string.conversation).setBadgeItem(mBadgeItem))
+                .addItem(new BottomNavigationItem(R.mipmap.conversation_selected_2, R.string.conversation).setBadgeItem(mBadgeItem))
                 .addItem(new BottomNavigationItem(R.mipmap.contact_selected_2, R.string.contact))
-                .addItem(new BottomNavigationItem(R.mipmap.contact_selected_2, R.string.plugin))//依次添加item,分别icon和名称
+                .addItem(new BottomNavigationItem(R.mipmap.plugin_selected_2, R.string.plugin))
+                .addItem(new BottomNavigationItem(R.mipmap.tab_me, R.string.mine))//依次添加item,分别icon和名称
                 .setActiveColor(R.color.btn_normal)
                 .setInActiveColor(R.color.inActive)//设置选择颜色
                 .setFirstSelectedPosition(0)//设置默认选择item

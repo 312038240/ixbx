@@ -30,8 +30,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="@dimen/avater_size"
-                android:layout_height="@dimen/avater_size"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_45"
                 android:layout_margin="5dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/avatar3"/>

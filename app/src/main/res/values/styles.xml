@@ -22,5 +22,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="header_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@color/header_line_color</item>
+    </style>
 
+    <color name="header_line_color">#32ffffff</color>
 </resources>

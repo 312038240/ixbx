@@ -7,5 +7,9 @@
     <color name="btn_normal">#00ACFF</color>
     <color name="btn_pressed">#00A1DB</color>
     <color name="inActive">#ABADBB</color>
-
+    <color name="text_color">#353535</color>
+    <color name="seal_bg">#f0f0f6</color>
+    <color name="header_bc_color">#00A1DB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="group_list_gray">#999999</color>
 </resources>
